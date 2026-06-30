@@ -1,0 +1,81 @@
+{
+  "contractorName": "ProStall Flooring",
+  "currency": "USD",
+  "_comment": "ProStall Flooring real rates. Edit live from /admin → Pricing tab.",
+
+  "materials": {
+    "tile": {
+      "label": "Tile",
+      "materialPerSqft": 2.50,
+      "laborInstallPerSqft": 4.80,
+      "laborDemoPerSqft": 3.00,
+      "requiresThinset": true,
+      "requiresGrout": true,
+      "notes": "Material is rough avg per tile (~1 sqft). Install labor includes grout & thinset application."
+    },
+    "lvp": {
+      "label": "Luxury Vinyl Plank",
+      "materialPerSqft": 3.00,
+      "laborInstallPerSqft": 2.50,
+      "laborDemoPerSqft": 2.00,
+      "requiresThinset": false,
+      "requiresGrout": false,
+      "notes": ""
+    },
+    "hardwood": {
+      "label": "Hardwood",
+      "materialPerSqft": 5.00,
+      "laborInstallPerSqft": 3.00,
+      "laborDemoPerSqft": 2.50,
+      "requiresThinset": false,
+      "requiresGrout": false,
+      "notes": "Material price includes glue."
+    },
+    "backsplash": {
+      "label": "Kitchen Backsplash",
+      "materialPerSqft": 2.50,
+      "laborInstallPerSqft": 18.00,
+      "laborDemoPerSqft": 0,
+      "demoFlatRate": 400,
+      "requiresThinset": true,
+      "requiresGrout": true,
+      "notes": "Demo is FLAT $400 (not per sqft). Install $18/sqft."
+    }
+  },
+
+  "consumables": {
+    "thinset": {
+      "label": "Thinset",
+      "pricePerBag": 22.00,
+      "sqftPerBag": 50,
+      "appliesTo": ["tile", "backsplash"]
+    },
+    "grout": {
+      "label": "Grout",
+      "pricePerBag": 35.00,
+      "sqftPerBag": 120,
+      "appliesTo": ["tile", "backsplash"]
+    }
+  },
+
+  "addOns": {
+    "stairsPerStep": 45.00,
+    "subfloorPrepPerSqft": 1.25,
+    "patternUpcharge": 0.20,
+    "diagonalLayoutUpcharge": 0.15
+  },
+
+  "fees": {
+    "minimumJobCharge": 350,
+    "tripFee": 75,
+    "wastePercent": 10,
+    "salesTaxPercent": 9.75,
+    "estimateRangePercent": 10
+  },
+
+  "defaults": {
+    "fallbackMaterialType": "lvp",
+    "includeTaxInEstimate": false,
+    "includeTripFeeAutomatically": true
+  }
+}
