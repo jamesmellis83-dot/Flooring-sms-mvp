@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>ProStall Flooring — Admin</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<style>
+  :root { --bg:#0f172a; --card:#1e293b; --text:#e2e8f0; --muted:#94a3b8; --accent:#38bdf8; --in:#334155; --out:#0369a1; --good:#10b981; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family:-apple-system,Segoe UI,Roboto,sans-serif; background:var(--bg); color:var(--text); }
+  header { padding:14px 20px; background:#020617; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; }
+  header h1 { margin:0; font-size:18px; }
+  .stats { display:flex; gap:14px; font-size:13px; color:var(--muted); flex-wrap:wrap; }
+  .stats span b { color:var(--accent); }
+  .tabs { display:flex; gap:4px; padding:6px 12px; background:#0b1220; border-bottom:1px solid #1e293b; flex-wrap:wrap; }
+  .tabs button { background:transparent; color:var(--muted); border:none; padding:8px 14px; cursor:pointer; border-radius:6px; font-size:13px; }
+  .tabs button.active { background:var(--accent); color:#0f172a; font-weight:600; }
+  main { height: calc(100vh - 105px); overflow:hidden; }
+  .panel { display:none; height:100%; overflow-y:auto; padding:18px; }
+  .panel.active { display:block; }
+  .panel.grid { display:none; }
+  .panel.grid.active { display:grid; grid-template-columns:280px 1fr; gap:0; padding:0; height:100%; }
+  .sidebar { background:#0b1220; overflow-y:auto; border-right:1px solid #1e293b; }
+  .sidebar .convo { padding:12px 14px; border-bottom:1px solid #1e293b; cursor:pointer; }
+  .sidebar .convo:hover { background:#1e293b; }
+  .sidebar .convo.active { background:#1e293b; border-left:3px solid var(--accent); }
+  .sidebar .phone { font-weight:600; }
+  .sidebar .preview { font-size:12px; color:var(--muted); margin-top:4px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .sidebar .time { font-size:11px; color:#475569; margin-top:2px; }
+  .sidebar .onboard { font-size:10px; color:var(--good); margin-top:2px; }
+  .chat { display:flex; flex-direction:column; overflow:hidden; }
+  .chat-header { padding:12px 18px; background:#0b1220; border-bottom:1px solid #1e293b; font-weight:600; }
+  .messages { flex:1; overflow-y:auto; padding:18px; display:flex; flex-direction:column; gap:8px; }
+  .msg { max-width:70%; padding:10px 14px; border-radius:14px; white-space:pre-wrap; font-size:14px; line-height:1.45; }
+  .msg.in { background:var(--in); align-self:flex-start; border-bottom-left-radius:4px; }
+  .msg.out { background:var(--out); align-self:flex-end; color:#fff; border-bottom-right-radius:4px; }
+  .msg .ts { display:block; font-size:10px; opacity:0.6; margin-top:4px; }
+  .empty { color:var(--muted); padding:40px; text-align:center; }
+  table { width:100%; border-collapse:collapse; font-size:13px; }
+  th, td { padding:8px 10px; border-bottom:1px solid #1e293b; text-align:left; }
+  th { color:var(--muted); font-weight:500; font-size:12px; text-transform:uppercase; }
+  .badge { display:inline-block; padding:2px 8px; border-radius:10px; font-size:11px; background:#1e293b; color:var(--accent); }
+  .badge.good { color:var(--good); background:rgba(16,185,129,0.15); }
+  .note { background:#1e293b; padding:12px; border-radius:8px; border-left:3px solid var(--accent); margin-bottom:14px; font-size:13px; color:var(--muted); }
+  code { background:#0b1220; padding:2px 6px; border-radius:4px; color:var(--accent); }
+  .card { background:var(--card); border-radius:10px; padding:16px; margin-bottom:14px; }
+  .card h3 { margin:0 0 10px 0; font-size:14px; color:var(--accent); text-transform:uppercase; letter-spacing:0.5px; }
+  .row { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .row3 { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+  label { display:block; font-size:12px; color:var(--muted); margin-bottom:4px; }
+  input[type=text], input[type=number], textarea, select {
+    width:100%; background:#0b1220; color:var(--text); border:1px solid #334155; border-radius:6px; padding:8px 10px; font-size:13px; font-family:inherit;
+  }
+  input:focus, textarea:focus { outline:none; border-color:var(--accent); }
+  textarea { min-height:80px; resize:vertical; }
+  .save-bar { position:sticky; top:0; z-index:10; background:#0b1220; padding:10px; border-radius:8px; margin-bottom:14px; display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+  button.primary { background:var(--accent); color:#0f172a; border:none; padding:9px 18px; border-radius:6px; font-weight:600; cursor:pointer; font-size:13px; }
+  button.primary:hover { filter:brightness(1.1); }
+  button.ghost { background:transparent; color:var(--muted); border:1px solid #334155; padding:8px 14px; border-radius:6px; cursor:pointer; font-size:13px; }
+  button.ghost:hover { color:var(--text); }
+  .status { font-size:12px; color:var(--muted); margin-left:auto; }
+  .status.ok { color:var(--good); }
+  .status.err { color:#ef4444; }
+  .material-card { background:#0b1220; border-radius:8px; padding:12px; margin-bottom:10px; border:1px solid #1e293b; }
+  .material-card h4 { margin:0 0 8px 0; font-size:13px; color:var(--accent); }
+  .material-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
+  .checkbox-row { display:flex; gap:14px; margin-top:8px; font-size:12px; color:var(--muted); }
+  .checkbox-row label { display:flex; align-items:center; gap:6px; margin:0; }
+  .consumable-row { display:grid; grid-template-columns:1.2fr 1fr 1fr; gap:8px; margin-bottom:8px; align-items:end; }
+  .sandbox { max-width:700px; margin:0 auto; }
+  .sand-msgs { background:#020617; border-radius:10px; padding:14px; min-height:300px; max-height:50vh; overflow-y:auto; margin-bottom:12px; display:flex; flex-direction:column; gap:8px; }
+  .sand-input { display:flex; gap:8px; }
+  .sand-input input { flex:1; }
+  .link-card { background:linear-gradient(135deg, #1e293b, #0b1220); border:1px solid var(--accent); border-radius:10px; padding:18px; margin-bottom:14px; }
+  .link-card a { color:var(--accent); font-weight:600; text-decoration:none; }
+  .link-card a:hover { text-decoration:underline; }
+</style>
+</head>
+<body>
+<header>
+  <h1>🧱 ProStall Flooring — Admin</h1>
+  <div class="stats">
+    <span>Today: <b id="leadsToday">0</b> leads</span>
+    <span>Pipeline: <b id="pipelineToday">$0</b></span>
+    <span>All-time: <b id="totalLeads">0</b></span>
+    <span>Onboarded: <b id="onboardCount">0</b></span>
+  </div>
+</header>
+
+<div class="tabs">
+  <button class="active" data-tab="chats">💬 Conversations</button>
+  <button data-tab="leads">📋 Saved Leads</button>
+  <button data-tab="onboarding">🚀 Onboarding</button>
+  <button data-tab="prompts">📝 Prompts</button>
+  <button data-tab="pricing">💰 Pricing & Labor</button>
+  <button data-tab="sandbox">🧪 Test Bot</button>
+</div>
+
+<main>
+
+  <section class="panel grid active" id="chats">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="chat">
+      <div class="chat-header" id="chatHeader">Pick a conversation →</div>
+      <div class="messages" id="messages"><div class="empty">No conversation selected.</div></div>
+    </div>
+  </section>
+
+  <section class="panel" id="leads">
+    <h2 style="margin-top:0;">Saved Leads</h2>
+    <table id="leadsTable">
+      <thead><tr><th>Date</th><th>Customer</th><th>Phone</th><th>SqFt</th><th>Type</th><th>Job</th><th>Estimate</th><th>Location</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <section class="panel" id="onboarding">
+    <div class="link-card">
+      <h3 style="margin:0 0 10px 0; color:var(--accent); font-size:14px;">📄 CONTRACTOR CHEAT SHEET</h3>
+      <p style="margin:0 0 10px;">Share this link with your contractor so they know how to use the system:</p>
+      <p style="margin:0;"><a id="cheatLink" href="/cheatsheet" target="_blank">View / print cheat sheet →</a></p>
+      <p style="margin:10px 0 0; font-size:12px; color:var(--muted);">💡 Add <code>?phone=+19015551234</code> to the URL to auto-fill your Twilio number on the sheet.</p>
+    </div>
+
+    <div class="card">
+      <h3>How First-Time Onboarding Works</h3>
+      <p style="font-size:13px; line-height:1.6; margin:0;">
+        When a brand-new phone number texts your Twilio number for the very first time, the bot automatically sends a <b>welcome packet</b> explaining how it works (defined in <code>firstTimeOnboarding</code> on the Prompts tab). After that, every text is treated as a job request.
+      </p>
+      <p style="font-size:13px; line-height:1.6; margin:10px 0 0;">
+        ✅ If their first text already contains a job (like <code>"1200 sqft LVP install"</code>), the bot sends the onboarding message AND processes the job — back-to-back.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>Phones That Have Been Onboarded</h3>
+      <table id="onboardTable">
+        <thead><tr><th>Phone</th><th>Status</th><th>Last Active</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="panel" id="prompts">
+    <div class="save-bar">
+      <button class="primary" onclick="savePrompts()">💾 Save Prompts</button>
+      <button class="ghost" onclick="loadPrompts()">↻ Reload</button>
+      <span class="status" id="promptStatus">Edit any field and hit Save — changes are live on the next SMS.</span>
+    </div>
+    <div class="note">
+      ✏️ Placeholders auto-fill: <code>{sqft}</code> <code>{typeLabel}</code> <code>{low}</code> <code>{high}</code> <code>{breakdownText}</code> <code>{contractorName}</code> <code>{customerName}</code>
+    </div>
+    <div id="promptsForm"></div>
+  </section>
+
+  <section class="panel" id="pricing">
+    <div class="save-bar">
+      <button class="primary" onclick="savePricing()">💾 Save Pricing</button>
+      <button class="ghost" onclick="loadPricing()">↻ Reload</button>
+      <span class="status" id="pricingStatus">All rates take effect on the next estimate.</span>
+    </div>
+    <div id="pricingForm"></div>
+  </section>
+
+  <section class="panel" id="sandbox">
+    <div class="sandbox">
+      <div class="note">🧪 Test what the bot replies WITHOUT sending a real SMS. Uses current saved prompts + pricing.</div>
+      <div class="sand-msgs" id="sandMsgs"></div>
+      <div class="sand-input">
+        <input id="sandInput" placeholder='Try: "1200 sqft tile demo and install for John in Memphis"' />
+        <button class="primary" onclick="sendSandbox()">Send</button>
+        <button class="ghost" onclick="resetSandbox()">Reset</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+let activePhone = null;
+let promptsData = null;
+let pricingData = null;
+
+async function loadStats() {
+  const s = await fetch('/admin/api/stats').then(r => r.json());
+  leadsToday.textContent = s.leadsToday;
+  pipelineToday.textContent = '$' + Number(s.pipelineToday).toLocaleString();
+  totalLeads.textContent = s.totalLeads;
+}
+async function loadConvos() {
+  const convos = await fetch('/admin/api/convos').then(r => r.json());
+  document.getElementById('onboardCount').textContent = convos.filter(c => c.onboarded).length;
+  const sb = document.getElementById('sidebar');
+  if (!convos.length) { sb.innerHTML = '<div class="empty">No conversations yet.<br><br>Text your Twilio number.</div>'; return; }
+  sb.innerHTML = convos.map(c => `
+    <div class="convo ${c.phone === activePhone ? 'active' : ''}" onclick="openChat('${c.phone}')">
+      <div class="phone">${c.phone}</div>
+      <div class="preview">${escapeHtml((c.last_message || '').slice(0,60))}</div>
+      <div class="time">${c.state} · ${new Date(c.updated_at + 'Z').toLocaleString()}</div>
+      ${c.onboarded ? '<div class="onboard">✓ Onboarded</div>' : ''}
+    </div>`).join('');
+}
+async function openChat(phone) {
+  activePhone = phone;
+  document.getElementById('chatHeader').textContent = phone;
+  const msgs = await fetch('/admin/api/messages/' + encodeURIComponent(phone)).then(r => r.json());
+  const box = document.getElementById('messages');
+  box.innerHTML = msgs.map(m => `
+    <div class="msg ${m.direction}">${escapeHtml(m.body)}
+      <span class="ts">${new Date(m.created_at + 'Z').toLocaleString()}</span>
+    </div>`).join('');
+  box.scrollTop = box.scrollHeight;
+  loadConvos();
+}
+async function loadLeads() {
+  const leads = await fetch('/admin/api/leads').then(r => r.json());
+  const tb = document.querySelector('#leadsTable tbody');
+  tb.innerHTML = leads.map(l => `
+    <tr>
+      <td>${new Date(l.created_at + 'Z').toLocaleString()}</td>
+      <td>${escapeHtml(l.customer_name || '')}</td>
+      <td>${l.phone}</td>
+      <td>${l.sqft}</td>
+      <td><span class="badge">${l.type}</span></td>
+      <td>${l.job}</td>
+      <td>$${(l.estimate_low||0).toLocaleString()} – $${(l.estimate_high||0).toLocaleString()}</td>
+      <td>${escapeHtml(l.location || '')}</td>
+    </tr>`).join('') || '<tr><td colspan="8" class="empty">No saved leads yet.</td></tr>';
+}
+async function loadOnboarding() {
+  const convos = await fetch('/admin/api/convos').then(r => r.json());
+  const tb = document.querySelector('#onboardTable tbody');
+  tb.innerHTML = convos.map(c => `
+    <tr>
+      <td>${c.phone}</td>
+      <td>${c.onboarded ? '<span class="badge good">✓ Onboarded</span>' : '<span class="badge">Pending</span>'}</td>
+      <td>${new Date(c.updated_at + 'Z').toLocaleString()}</td>
+    </tr>`).join('') || '<tr><td colspan="3" class="empty">No conversations yet.</td></tr>';
+}
+
+/* ---------- PROMPTS ---------- */
+async function loadPrompts() {
+  promptsData = await fetch('/admin/api/prompts').then(r => r.json());
+  renderPromptsForm();
+}
+function renderPromptsForm() {
+  const skip = ['_comment'];
+  const html = Object.entries(promptsData).filter(([k]) => !skip.includes(k)).map(([k, v]) => {
+    const isLong = (v || '').length > 60;
+    return `<div class="card"><h3>${k}</h3>
+      ${isLong
+        ? `<textarea data-key="${k}">${escapeHtml(v)}</textarea>`
+        : `<input type="text" data-key="${k}" value="${escapeHtml(v)}" />`}</div>`;
+  }).join('');
+  document.getElementById('promptsForm').innerHTML = html;
+}
+async function savePrompts() {
+  document.querySelectorAll('#promptsForm [data-key]').forEach(el => { promptsData[el.dataset.key] = el.value; });
+  const s = document.getElementById('promptStatus');
+  s.textContent = 'Saving…'; s.className = 'status';
+  const res = await fetch('/admin/api/prompts', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(promptsData) });
+  const j = await res.json();
+  s.textContent = j.ok ? '✅ Saved — live on next SMS' : ('❌ ' + j.error);
+  s.className = 'status ' + (j.ok ? 'ok' : 'err');
+}
+
+/* ---------- PRICING ---------- */
+async function loadPricing() {
+  pricingData = await fetch('/admin/api/pricing').then(r => r.json());
+  renderPricingForm();
+}
+function renderPricingForm() {
+  const p = pricingData;
+  const materials = Object.entries(p.materials).map(([key, m]) => `
+    <div class="material-card">
+      <h4>${escapeHtml(m.label)} <code>${key}</code></h4>
+      <div class="material-grid">
+        <div><label>Label</label><input type="text" value="${escapeHtml(m.label)}" data-mat="${key}" data-field="label" /></div>
+        <div><label>Material $/sqft</label><input type="number" step="0.01" value="${m.materialPerSqft}" data-mat="${key}" data-field="materialPerSqft" /></div>
+        <div><label>Install labor $/sqft</label><input type="number" step="0.01" value="${m.laborInstallPerSqft}" data-mat="${key}" data-field="laborInstallPerSqft" /></div>
+        <div><label>Demo labor $/sqft</label><input type="number" step="0.01" value="${m.laborDemoPerSqft}" data-mat="${key}" data-field="laborDemoPerSqft" /></div>
+        ${m.demoFlatRate !== undefined ? `<div><label>Demo FLAT rate $</label><input type="number" step="1" value="${m.demoFlatRate}" data-mat="${key}" data-field="demoFlatRate" /></div>` : ''}
+      </div>
+      <div class="checkbox-row">
+        <label><input type="checkbox" data-mat="${key}" data-field="requiresThinset" ${m.requiresThinset?'checked':''} /> Requires thinset</label>
+        <label><input type="checkbox" data-mat="${key}" data-field="requiresGrout" ${m.requiresGrout?'checked':''} /> Requires grout</label>
+      </div>
+      <div><label style="margin-top:8px;">Notes (internal)</label><input type="text" value="${escapeHtml(m.notes||'')}" data-mat="${key}" data-field="notes" /></div>
+    </div>`).join('');
+
+  const consumables = Object.entries(p.consumables || {}).map(([key, c]) => `
+    <div class="consumable-row">
+      <div><label>${escapeHtml(c.label)}</label><input type="text" value="${escapeHtml(c.label)}" data-cons="${key}" data-field="label" /></div>
+      <div><label>$/bag</label><input type="number" step="0.01" value="${c.pricePerBag}" data-cons="${key}" data-field="pricePerBag" /></div>
+      <div><label>Coverage (sqft/bag)</label><input type="number" step="1" value="${c.sqftPerBag}" data-cons="${key}" data-field="sqftPerBag" /></div>
+    </div>`).join('');
+
+  const addOns = Object.entries(p.addOns).map(([k,v]) => `
+    <div><label>${k}</label><input type="number" step="0.05" value="${v}" data-addon="${k}" /></div>`).join('');
+
+  const fees = Object.entries(p.fees).map(([k,v]) => `
+    <div><label>${k}</label><input type="number" step="0.01" value="${v}" data-fee="${k}" /></div>`).join('');
+
+  document.getElementById('pricingForm').innerHTML = `
+    <div class="card"><h3>Contractor Info</h3>
+      <div class="row">
+        <div><label>Contractor name</label><input type="text" id="cName" value="${escapeHtml(p.contractorName)}" /></div>
+        <div><label>Currency</label><input type="text" id="cCur" value="${escapeHtml(p.currency)}" /></div>
+      </div>
+    </div>
+    <div class="card"><h3>Materials — Labor & Material Rates</h3>
+      <div class="note" style="margin-bottom:10px;">💡 For <b>demo + install</b>, the system adds Install $/sqft + Demo $/sqft. Backsplash uses flat-rate demo.</div>
+      ${materials}
+    </div>
+    <div class="card"><h3>Consumables (auto-calculated)</h3>
+      <div class="note" style="margin-bottom:10px;">Bags = ceil(sqft / coverage). Only applied if material flagged "Requires X".</div>
+      ${consumables}
+    </div>
+    <div class="card"><h3>Add-ons</h3><div class="row3">${addOns}</div></div>
+    <div class="card"><h3>Fees & Minimums</h3><div class="row3">${fees}</div></div>
+    <div class="card"><h3>Defaults</h3>
+      <div class="row3">
+        <div><label>Fallback material</label>
+          <select id="fbType">${Object.keys(p.materials).map(k => `<option ${k===p.defaults.fallbackMaterialType?'selected':''}>${k}</option>`).join('')}</select>
+        </div>
+        <div><label>Include tax in estimate?</label>
+          <select id="incTax"><option value="true" ${p.defaults.includeTaxInEstimate?'selected':''}>Yes</option><option value="false" ${!p.defaults.includeTaxInEstimate?'selected':''}>No</option></select>
+        </div>
+        <div><label>Auto-include trip fee?</label>
+          <select id="incTrip"><option value="true" ${p.defaults.includeTripFeeAutomatically?'selected':''}>Yes</option><option value="false" ${!p.defaults.includeTripFeeAutomatically?'selected':''}>No</option></select>
+        </div>
+      </div>
+    </div>`;
+}
+async function savePricing() {
+  pricingData.contractorName = document.getElementById('cName').value;
+  pricingData.currency = document.getElementById('cCur').value;
+  document.querySelectorAll('[data-mat]').forEach(el => {
+    const m = el.dataset.mat, f = el.dataset.field;
+    if (el.type === 'checkbox') pricingData.materials[m][f] = el.checked;
+    else if (f === 'label' || f === 'notes') pricingData.materials[m][f] = el.value;
+    else pricingData.materials[m][f] = parseFloat(el.value) || 0;
+  });
+  document.querySelectorAll('[data-cons]').forEach(el => {
+    const c = el.dataset.cons, f = el.dataset.field;
+    pricingData.consumables[c][f] = f === 'label' ? el.value : parseFloat(el.value) || 0;
+  });
+  document.querySelectorAll('[data-addon]').forEach(el => pricingData.addOns[el.dataset.addon] = parseFloat(el.value) || 0);
+  document.querySelectorAll('[data-fee]').forEach(el => pricingData.fees[el.dataset.fee] = parseFloat(el.value) || 0);
+  pricingData.defaults.fallbackMaterialType = document.getElementById('fbType').value;
+  pricingData.defaults.includeTaxInEstimate = document.getElementById('incTax').value === 'true';
+  pricingData.defaults.includeTripFeeAutomatically = document.getElementById('incTrip').value === 'true';
+
+  const s = document.getElementById('pricingStatus');
+  s.textContent = 'Saving…'; s.className = 'status';
+  const res = await fetch('/admin/api/pricing', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(pricingData) });
+  const j = await res.json();
+  s.textContent = j.ok ? '✅ Saved — live on next estimate' : ('❌ ' + j.error);
+  s.className = 'status ' + (j.ok ? 'ok' : 'err');
+}
+
+/* ---------- SANDBOX ---------- */
+async function sendSandbox() {
+  const inp = document.getElementById('sandInput');
+  const body = inp.value.trim();
+  if (!body) return;
+  appendSand('in', body);
+  inp.value = '';
+  const res = await fetch('/admin/api/test-sms', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ phone: '+1SANDBOX', body }) });
+  const j = await res.json();
+  appendSand('out', j.reply);
+}
+function appendSand(dir, body) {
+  const box = document.getElementById('sandMsgs');
+  const d = document.createElement('div');
+  d.className = 'msg ' + dir; d.textContent = body;
+  box.appendChild(d); box.scrollTop = box.scrollHeight;
+}
+async function resetSandbox() {
+  await fetch('/admin/api/test-sms', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ phone: '+1SANDBOX', body: 'reset' }) });
+  document.getElementById('sandMsgs').innerHTML = '';
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && document.activeElement?.id === 'sandInput') sendSandbox();
+});
+
+/* ---------- UTILS ---------- */
+function escapeHtml(s) { return (s==null?'':String(s)).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+document.querySelectorAll('.tabs button').forEach(b => {
+  b.addEventListener('click', () => {
+    document.querySelectorAll('.tabs button').forEach(x => x.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    document.getElementById(b.dataset.tab).classList.add('active');
+    if (b.dataset.tab === 'leads') loadLeads();
+    if (b.dataset.tab === 'onboarding') loadOnboarding();
+    if (b.dataset.tab === 'prompts') loadPrompts();
+    if (b.dataset.tab === 'pricing') loadPricing();
+  });
+});
+
+loadStats(); loadConvos();
+setInterval(() => { loadStats(); loadConvos(); if (activePhone) openChat(activePhone); }, 5000);
+</script>
+</body>
+</html>

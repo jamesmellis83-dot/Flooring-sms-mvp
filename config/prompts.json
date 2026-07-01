@@ -1,0 +1,29 @@
+{
+  "_comment": "Edit live from /admin → Prompts tab. Placeholders auto-fill at send time.",
+
+  "aiParsePrompt": "You are a parsing assistant for ProStall Flooring, a flooring contractor in Tennessee. Extract these fields from the contractor's text message and return ONLY valid JSON, no markdown.\n\nFields:\n- sqft (number)\n- type (string): \"tile\", \"lvp\", \"hardwood\", \"backsplash\", or \"unknown\". Recognize \"luxury vinyl\", \"vinyl plank\" → lvp; \"wood floors\", \"hardwood\" → hardwood; \"kitchen backsplash\", \"backsplash\" → backsplash.\n- job (string): \"install\", \"demo\", or \"demoAndInstall\". \"rip out and replace\", \"tear out and install\", \"demo and install\", \"remove and install\" → demoAndInstall. \"demo\", \"rip out\", \"tear out\" alone → demo. Default \"install\".\n- location (string|null)\n- customerName (string|null)\n- addOns (object): { \"subfloorPrep\": bool, \"stairs\": number, \"pattern\": bool, \"diagonal\": bool }\n- notes (string|null)\n\nExample: \"1200 sqft tile install for John Smith in Memphis\" → {\"sqft\":1200,\"type\":\"tile\",\"job\":\"install\",\"location\":\"Memphis\",\"customerName\":\"John Smith\",\"addOns\":{\"subfloorPrep\":false,\"stairs\":0,\"pattern\":false,\"diagonal\":false},\"notes\":null}",
+
+  "firstTimeOnboarding": "👋 Hey! Welcome to {contractorName}'s SMS estimator.\n\nI turn quick texts into instant estimates so you can quote customers on the spot.\n\n📲 HOW TO USE ME:\n\nJust text a job like:\n• \"1200 sqft LVP install\"\n• \"800 sqft tile demo and install\"\n• \"35 sqft kitchen backsplash\"\n• \"600 sqft hardwood for John Smith\"\n\nI'll reply with a fast estimate. You can pick:\n1) Quick estimate\n2) Full breakdown (line items)\n3) Edit details\n\n💡 Tips:\n• Add a customer name → I'll save the lead\n• Say \"demo and install\" → I'll add demo labor\n• Text \"menu\" anytime for help\n• Text \"stats\" to see today's pipeline\n• Text \"reset\" to start over\n\nReady? Try sending me a job now 👇",
+
+  "welcome": "👋 Hey! Text me a job like:\n• \"1200 sqft LVP install\"\n• \"800 sqft tile demo and install\"\n• \"35 sqft kitchen backsplash\"\n\nI'll give you a fast estimate. Text \"menu\" for help.",
+
+  "parsedConfirmation": "Got it ✅\n\n📐 {sqft} sqft\n🧱 {typeLabel}\n🔨 {job}\n\nReply:\n1) Quick estimate\n2) Full breakdown\n3) Edit details",
+
+  "parseFailed": "Hmm, I couldn't read that one.\n\nTry something like:\n• \"800 sqft tile install\"\n• \"1500 sqft LVP demo and install\"\n• \"40 sqft backsplash install\"",
+
+  "quickEstimate": "💰 Estimate: ${low} – ${high}\n\n{sqft} sqft {typeLabel} {job}\n\nReply:\n1) Send to customer\n2) Save job\n3) Adjust details",
+
+  "fullBreakdown": "📋 {sqft} sqft {typeLabel} — {job}\n\n{breakdownText}\n-------------------\nTotal: ${low} – ${high}\n\nReply:\n1) Send to customer\n2) Save job\n3) Start over",
+
+  "customerMessage": "Hey {customerName}! {contractorName} here. Based on your project (~{sqft} sqft {typeLabel}), you're looking at roughly ${low}–${high} installed. Happy to come take a closer look and lock in a firm number.",
+
+  "savedJob": "✅ Saved.\n\nTotal leads: {totalLeads}\nPipeline today: ${pipelineToday}\n\nText \"menu\" anytime.",
+
+  "unknownInput": "Not sure what you meant 🤔\n\nReply with a number (1, 2, 3)\nor text a new job like:\n\"600 sqft tile install\"\n\nOr text \"menu\" to start over.",
+
+  "menu": "📲 {contractorName} Menu\n\n• Text a job: \"1200 sqft LVP install\"\n• Demo + install: \"800 sqft tile demo and install\"\n• Backsplash: \"35 sqft kitchen backsplash\"\n• \"stats\" — today's numbers\n• \"reset\" — start over\n• \"help\" — show this menu",
+
+  "resetConfirm": "🔄 Reset. Send a new job anytime.",
+
+  "statsReply": "📊 {contractorName} — Today\nLeads: {leadsToday}\nPipeline: ${pipelineToday}\n\nAll-time leads: {totalLeads}"
+}

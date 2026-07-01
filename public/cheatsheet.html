@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>ProStall Flooring — SMS Estimator Cheat Sheet</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<style>
+  :root { --bg:#f8fafc; --card:#fff; --text:#0f172a; --muted:#64748b; --accent:#2563eb; --good:#059669; --warn:#d97706; --border:#e2e8f0; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: -apple-system, Segoe UI, Roboto, sans-serif; background:var(--bg); color:var(--text); line-height:1.5; }
+  .wrap { max-width:780px; margin:0 auto; padding:24px 18px 80px; }
+  header { text-align:center; margin-bottom:24px; }
+  header h1 { margin:0 0 6px; font-size:28px; color:var(--accent); }
+  header p { margin:0; color:var(--muted); font-size:14px; }
+  .card { background:var(--card); border-radius:12px; padding:18px 20px; margin-bottom:16px; box-shadow:0 1px 3px rgba(0,0,0,0.06); border:1px solid var(--border); }
+  .card h2 { margin:0 0 10px; font-size:18px; color:var(--text); display:flex; align-items:center; gap:8px; }
+  .card h3 { margin:14px 0 6px; font-size:15px; color:var(--muted); text-transform:uppercase; letter-spacing:0.5px; }
+  .phone { background:#dbeafe; color:var(--accent); border-radius:8px; padding:14px 18px; font-size:22px; font-weight:700; text-align:center; letter-spacing:1px; margin:10px 0; }
+  .sample { background:#f1f5f9; border-left:4px solid var(--accent); padding:10px 14px; margin:8px 0; border-radius:4px; font-family:ui-monospace, Menlo, monospace; font-size:14px; }
+  .reply { background:#ecfdf5; border-left:4px solid var(--good); padding:10px 14px; margin:8px 0; border-radius:4px; font-family:ui-monospace, Menlo, monospace; font-size:13px; white-space:pre-wrap; color:#065f46; }
+  .row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  @media (max-width:600px) { .row { grid-template-columns:1fr; } }
+  table { width:100%; border-collapse:collapse; margin-top:6px; font-size:14px; }
+  th, td { padding:8px 10px; text-align:left; border-bottom:1px solid var(--border); }
+  th { color:var(--muted); font-weight:500; font-size:12px; text-transform:uppercase; }
+  .badge { display:inline-block; background:#dbeafe; color:var(--accent); padding:2px 10px; border-radius:12px; font-size:12px; font-weight:600; }
+  .tip { background:#fef3c7; border-left:4px solid var(--warn); padding:10px 14px; margin:8px 0; border-radius:4px; font-size:14px; color:#78350f; }
+  .keyword { background:#1e293b; color:#fbbf24; padding:1px 6px; border-radius:4px; font-size:12px; font-family:ui-monospace, monospace; }
+  .footer { text-align:center; color:var(--muted); font-size:12px; margin-top:30px; }
+  @media print {
+    body { background:#fff; }
+    .card { box-shadow:none; border:1px solid #ccc; page-break-inside:avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>🧱 ProStall Flooring</h1>
+  <p>Your SMS estimator — text it like a person, get instant quotes.</p>
+</header>
+
+<div class="card">
+  <h2>📱 Your Estimator Number</h2>
+  <div class="phone" id="phoneNumber">Your Twilio number goes here</div>
+  <p style="text-align:center; margin:0; color:var(--muted); font-size:13px;">
+    Save it in your contacts as <b>"ProStall Estimator"</b>
+  </p>
+</div>
+
+<div class="card">
+  <h2>🚀 Quick Start — Just Text It</h2>
+  <p style="margin:0 0 12px; color:var(--muted);">First text? You'll get a welcome message explaining everything. After that, just text jobs.</p>
+
+  <h3>Try this first text:</h3>
+  <div class="sample">1200 sqft LVP install</div>
+
+  <p style="margin:12px 0 6px; font-size:13px; color:var(--muted);">You'll get back:</p>
+  <div class="reply">Got it ✅
+
+📐 1200 sqft
+🧱 Luxury Vinyl Plank
+🔨 install
+
+Reply:
+1) Quick estimate
+2) Full breakdown
+3) Edit details</div>
+
+  <p style="margin:14px 0 6px; font-size:13px; color:var(--muted);">Then text <b>2</b> for the full breakdown:</p>
+  <div class="reply">📋 1200 sqft Luxury Vinyl Plank — install
+
+  LVP material (1200 sqft × $3.00/sqft + 10% waste): $3,960
+  LVP install labor (1200 sqft × $2.50): $3,000
+  Trip fee: $75
+-------------------
+Total: $7,035 – $7,739
+
+Reply:
+1) Send to customer
+2) Save job
+3) Start over</div>
+</div>
+
+<div class="card">
+  <h2>✍️ How to Word Your Jobs</h2>
+
+  <h3>The 3-part formula</h3>
+  <p style="margin:0 0 8px;">Just include: <b>square footage</b> + <b>material</b> + <b>what you're doing</b>.</p>
+
+  <table>
+    <thead><tr><th>Type this</th><th>What happens</th></tr></thead>
+    <tbody>
+      <tr><td>1200 sqft LVP install</td><td>Standard install estimate</td></tr>
+      <tr><td>800 sqft tile demo and install</td><td>Demo + install combined</td></tr>
+      <tr><td>600 sqft hardwood for John Smith</td><td>Saves customer name to the lead</td></tr>
+      <tr><td>35 sqft kitchen backsplash</td><td>Backsplash pricing ($18/sqft labor)</td></tr>
+      <tr><td>500 sqft tile rip out</td><td>Demo only ($3/sqft tile demo)</td></tr>
+      <tr><td>1500 sqft LVP install Memphis for the Wilsons</td><td>Saves location + customer</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="card">
+  <h2>🧱 What Materials I Know</h2>
+  <table>
+    <thead><tr><th>You can say</th><th>Pricing used</th></tr></thead>
+    <tbody>
+      <tr><td>"tile" or "ceramic"</td><td><span class="badge">Tile</span> $4.80/sqft install + thinset + grout</td></tr>
+      <tr><td>"LVP", "vinyl plank", "luxury vinyl"</td><td><span class="badge">LVP</span> $2.50/sqft install</td></tr>
+      <tr><td>"hardwood", "wood floors"</td><td><span class="badge">Hardwood</span> $3.00/sqft install</td></tr>
+      <tr><td>"backsplash", "kitchen backsplash"</td><td><span class="badge">Backsplash</span> $18/sqft install</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="card">
+  <h2>🔨 Demo vs Install vs Both</h2>
+  <table>
+    <thead><tr><th>Say this</th><th>I'll do</th></tr></thead>
+    <tbody>
+      <tr><td>"install" / nothing</td><td>Install only</td></tr>
+      <tr><td>"demo" / "rip out" / "tear out"</td><td>Demo only (labor, no new material)</td></tr>
+      <tr><td>"demo and install" / "rip out and replace" / "tear out and install"</td><td>Both — adds demo $/sqft + install $/sqft</td></tr>
+    </tbody>
+  </table>
+  <div class="tip">💡 <b>Backsplash demo is a flat $400</b> (not per sqft). I handle that automatically.</div>
+</div>
+
+<div class="card">
+  <h2>🎯 The 3 Reply Buttons (after I send an estimate)</h2>
+  <div class="row">
+    <div>
+      <h3>Step 1 — Pick estimate type</h3>
+      <p style="margin:0;font-size:13px;"><span class="keyword">1</span> Quick estimate (just the $$ range)<br>
+      <span class="keyword">2</span> Full breakdown (line items)<br>
+      <span class="keyword">3</span> Edit details (start over)</p>
+    </div>
+    <div>
+      <h3>Step 2 — After estimate</h3>
+      <p style="margin:0;font-size:13px;"><span class="keyword">1</span> Send to customer (formatted message)<br>
+      <span class="keyword">2</span> Save job (logs it as a lead)<br>
+      <span class="keyword">3</span> Start over</p>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>⌨️ Anytime Commands</h2>
+  <table>
+    <thead><tr><th>Text</th><th>What it does</th></tr></thead>
+    <tbody>
+      <tr><td><span class="keyword">menu</span> or <span class="keyword">help</span></td><td>Show the help menu</td></tr>
+      <tr><td><span class="keyword">stats</span></td><td>Today's leads + pipeline $</td></tr>
+      <tr><td><span class="keyword">reset</span></td><td>Clear current conversation, start fresh</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="card">
+  <h2>💡 Pro Tips</h2>
+  <div class="tip">📲 <b>Save it as a contact</b> so you can text it from anywhere in your phone.</div>
+  <div class="tip">👤 <b>Always include customer names</b> — they save to the lead log so you can find jobs later.</div>
+  <div class="tip">📏 <b>Round sqft up</b> a little — the estimator adds 10% waste automatically, but rough measurements are fine.</div>
+  <div class="tip">📞 <b>Use it on-site</b> — measure, text, quote, done. No app, no laptop.</div>
+  <div class="tip">⚡ <b>Reply with numbers fast</b> — 1, 2, or 3. Don't write sentences for menu choices.</div>
+</div>
+
+<div class="card">
+  <h2>🎬 Real Example: Full Job From Text to Quote</h2>
+  <div class="sample">You: 850 sqft tile demo and install kitchen for Mike Henderson</div>
+  <div class="reply">Got it ✅
+📐 850 sqft 🧱 Tile 🔨 demo + install
+Reply: 1) Quick 2) Full breakdown 3) Edit</div>
+  <div class="sample">You: 1</div>
+  <div class="reply">💰 Estimate: $10,210 – $11,231
+850 sqft Tile demo + install
+Reply: 1) Send to customer 2) Save job 3) Adjust</div>
+  <div class="sample">You: 1</div>
+  <div class="reply">Hey Mike Henderson! ProStall Flooring here. Based on your project (~850 sqft Tile), you're looking at roughly $10,210–$11,231 installed. Happy to come take a closer look and lock in a firm number.</div>
+  <p style="font-size:13px; color:var(--muted); margin:8px 0 0;">→ Copy that and forward straight to your customer. ✅</p>
+</div>
+
+<div class="footer">
+  ProStall Flooring SMS Estimator · Powered by your contractor's real rates · v1.2
+</div>
+
+</div>
+
+<script>
+  // Replace the phone number if a Twilio number env was injected at build time
+  // (for now: edit this file or hand-write it before printing)
+  // Try reading from query string: /cheatsheet?phone=+19015551234
+  const params = new URLSearchParams(location.search);
+  const p = params.get('phone');
+  if (p) document.getElementById('phoneNumber').textContent = p;
+</script>
+</body>
+</html>
