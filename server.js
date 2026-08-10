@@ -2,12 +2,13 @@
 // No SQLite version - uses a simple JSON file for logging
 
 const express = require("express");
-const path = require('path');
-app.use(express.static(path.join(__dirname, 'public')));
+const app = express();
 
+app.use(express.static(path.join(__dirname, 'public')));
 app.get('/terms',       (r,s)=>s.sendFile(path.join(__dirname,'public/terms.html')));
 app.get('/privacy',     (r,s)=>s.sendFile(path.join(__dirname,'public/privacy.html')));
 app.get('/sms-consent', (r,s)=>s.sendFile(path.join(__dirname,'public/sms-consent.html')));
+const path = require('path');
 const fs = require("fs");
 
 const app = express();
