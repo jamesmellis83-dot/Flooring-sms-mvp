@@ -2,13 +2,7 @@
 // No SQLite version - uses a simple JSON file for logging
 
 const express = require("express");
-const app = express();
-
-app.use(express.static(path.join(__dirname, 'public')));
-app.get('/terms',       (r,s)=>s.sendFile(path.join(__dirname,'public/terms.html')));
-app.get('/privacy',     (r,s)=>s.sendFile(path.join(__dirname,'public/privacy.html')));
-app.get('/sms-consent', (r,s)=>s.sendFile(path.join(__dirname,'public/sms-consent.html')));
-const path = require('path');
+const path = require("path");
 const fs = require("fs");
 
 const app = express();
@@ -20,6 +14,18 @@ const TELNYX_PHONE_NUMBER = process.env.TELNYX_PHONE_NUMBER;
 const LOG_FILE = path.join(__dirname, "messages.json");
 
 app.use(express.json());
+
+// --- Static website files (public/) ---
+app.use(express.static(path.join(__dirname, "public")));
+
+app.get("/terms", (req, res) =>
+  res.sendFile(path.join(__dirname, "public", "terms.html")));
+
+app.get("/privacy", (req, res) =>
+  res.sendFile(path.join(__dirname, "public", "privacy.html")));
+
+app.get("/sms-consent", (req, res) =>
+  res.sendFile(path.join(__dirname, "public", "sms-consent.html")));
 
 function loadMessages() {
   try {
@@ -84,7 +90,7 @@ async function sendSMS(to, text) {
 }
 
 function estimateReply(message) {
-  const text = message.toLowerCase();
+  const text = (message || "").toLowerCase();
 
   let price = null;
   let flooringType = null;
@@ -120,7 +126,7 @@ function estimateReply(message) {
 app.post("/sms", async (req, res) => {
   console.log("Webhook received:", JSON.stringify(req.body, null, 2));
 
-  const event = req.body?.data;
+  const event = req.body && req.body.data;
 
   if (!event || event.event_type !== "message.received") {
     return res.sendStatus(200);
@@ -128,7 +134,7 @@ app.post("/sms", async (req, res) => {
 
   const payload = event.payload;
 
-  const from = payload.from?.phone_number;
+  const from = payload.from && payload.from.phone_number;
   const text = payload.text;
 
   console.log("Incoming:", from, text);
@@ -265,13 +271,14 @@ app.get("/health", (req, res) => {
   });
 });
 
+// Fallback only - if public/index.html exists, express.static serves it instead
 app.get("/", (req, res) => {
   res.send(`
     <h1>ProStall Flooring SMS Estimator</h1>
     <p>Status: running</p>
     <p>Provider: Telnyx</p>
-    <p>/adminAdmin Dashboard</a></p>
-    <p>/healthHealth Check</a></p>
+    <p><a href="/admin">Admin Dashboard</a></p>
+    <p><a href="/health">Health Check</a></p>
   `);
 });
 
