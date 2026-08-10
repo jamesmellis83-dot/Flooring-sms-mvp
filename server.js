@@ -9,7 +9,6 @@ app.get('/terms',       (r,s)=>s.sendFile(path.join(__dirname,'public/terms.html
 app.get('/privacy',     (r,s)=>s.sendFile(path.join(__dirname,'public/privacy.html')));
 app.get('/sms-consent', (r,s)=>s.sendFile(path.join(__dirname,'public/sms-consent.html')));
 const fs = require("fs");
-const path = require("path");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
