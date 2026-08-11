@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Contractor Pricing Configurator | BidBuddy USA</title>
+  <meta name="description" content="Configure roofing contractor pricing inputs for BidBuddy USA estimates.">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav-wrap">
+      <a class="brand" href="/" aria-label="BidBuddy USA home">
+        <span class="brand-mark">B</span>
+        <span>BidBuddy <strong>USA</strong></span>
+      </a>
+      <nav aria-label="Primary navigation">
+        <a href="/">Home</a>
+        <a href="/sms-consent">SMS terms</a>
+        <a href="/privacy">Privacy</a>
+        <a class="nav-cta" href="mailto:support@bidbuddyusa.com">Support</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="config-hero">
+      <div class="wrap config-hero-grid">
+        <div>
+          <p class="eyebrow">Contractor pricing configurator</p>
+          <h1>Turn a roofer’s rate sheet into BidBuddy estimate rules.</h1>
+          <p class="lede">Capture the contractor’s actual pricing inputs, preview a sample estimate, and generate a JSON profile that can be wired into the backend.</p>
+        </div>
+        <div class="config-summary-card">
+          <p class="estimate-kicker">Configurator status</p>
+          <h2>Roofing profile</h2>
+          <p>Use this page during onboarding calls or sales demos to collect pricing in a structured way.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-white">
+      <div class="wrap configurator-grid">
+        <form class="config-form" id="pricingForm">
+          <div class="form-section">
+            <h2>Contractor details</h2>
+            <div class="field-grid two">
+              <label>Business name<input name="businessName" value="Demo Roofing Contractor"></label>
+              <label>Service area<input name="serviceArea" value="Memphis metro"></label>
+              <label>Support email<input name="supportEmail" value="support@bidbuddyusa.com"></label>
+              <label>Support phone<input name="supportPhone" value="901-288-9044"></label>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h2>Core roofing rates</h2>
+            <div class="field-grid three">
+              <label>Install per square<input type="number" name="baseInstallPerSquare" value="425"></label>
+              <label>Tear-off per square per layer<input type="number" name="tearOffPerSquarePerLayer" value="85"></label>
+              <label>Minimum job<input type="number" name="minimumJob" value="2500"></label>
+              <label>Target margin %<input type="number" name="marginPercent" value="30"></label>
+              <label>Steep pitch surcharge / square<input type="number" name="steepPitchSurchargePerSquare" value="45"></label>
+              <label>Two-story surcharge / square<input type="number" name="twoStorySurchargePerSquare" value="35"></label>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h2>Accessories and extras</h2>
+            <div class="field-grid three">
+              <label>Ridge detail per foot<input type="number" name="ridgeVentPerFoot" value="9"></label>
+              <label>Valley detail per foot<input type="number" name="valleyPerFoot" value="14"></label>
+              <label>Pipe boot each<input type="number" name="pipeBootEach" value="75"></label>
+              <label>Chimney flashing each<input type="number" name="chimneyFlashingEach" value="325"></label>
+              <label>Skylight flashing each<input type="number" name="skylightFlashingEach" value="275"></label>
+              <label>Decking per sheet<input type="number" name="deckingPerSheet" value="95"></label>
+              <label>Dumpster / haul-off flat<input type="number" name="dumpsterFlat" value="450"></label>
+              <label>Drip edge per foot<input type="number" name="dripEdgePerFoot" value="3.5" step="0.01"></label>
+              <label>Ice and water shield per foot<input type="number" name="iceWaterShieldPerFoot" value="4.25" step="0.01"></label>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h2>Sample job</h2>
+            <div class="field-grid three">
+              <label>Squares<input type="number" name="sampleSquares" value="28"></label>
+              <label>Tear-off layers<input type="number" name="sampleTearOffLayers" value="1"></label>
+              <label>Pitch<select name="samplePitch"><option value="6/12">6/12</option><option value="8/12">8/12</option><option value="10/12">10/12</option></select></label>
+              <label>Story count<select name="sampleStory"><option value="two-story">two-story</option><option value="one-story">one-story</option></select></label>
+              <label>Ridge feet<input type="number" name="sampleRidgeFeet" value="58"></label>
+              <label>Valley feet<input type="number" name="sampleValleyFeet" value="42"></label>
+              <label>Pipe boots<input type="number" name="samplePipeBoots" value="2"></label>
+              <label>Chimneys<input type="number" name="sampleChimneys" value="1"></label>
+              <label>Decking sheets<input type="number" name="sampleDeckingSheets" value="0"></label>
+            </div>
+          </div>
+
+          <div class="form-actions sticky-actions">
+            <button class="btn primary" type="button" id="calculateConfig">Update preview</button>
+            <button class="btn secondary dark" type="button" id="copyJson">Copy JSON profile</button>
+            <a class="btn secondary dark" id="emailConfig" href="mailto:support@bidbuddyusa.com">Email configuration</a>
+          </div>
+        </form>
+
+        <aside class="config-preview">
+          <div class="preview-card">
+            <p class="estimate-kicker">Sample estimate preview</p>
+            <div id="configEstimate"></div>
+          </div>
+          <div class="preview-card">
+            <p class="estimate-kicker">Backend JSON profile</p>
+            <pre id="jsonProfile"></pre>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-bottom">
+      <p>&copy; 2026 BidBuddy USA LLC. Support: <a href="mailto:support@bidbuddyusa.com">support@bidbuddyusa.com</a> | <a href="tel:+19012889044">901-288-9044</a></p>
+    </div>
+  </footer>
+
+  <script src="/site.js"></script>
+</body>
+</html>

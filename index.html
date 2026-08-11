@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>BidBuddy USA | Roofing Estimates by Text</title>
+  <meta name="description" content="BidBuddy USA helps roofing contractors turn text messages into fast, consistent roofing estimates using their own pricing and business rules.">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav-wrap">
+      <a class="brand" href="/" aria-label="BidBuddy USA home">
+        <span class="brand-mark">B</span>
+        <span>BidBuddy <strong>USA</strong></span>
+      </a>
+      <nav aria-label="Primary navigation">
+        <a href="#demo">Live demo</a>
+        <a href="#how">How it works</a>
+        <a href="/pricing-configurator">Pricing configurator</a>
+        <a href="/sms-consent">SMS terms</a>
+        <a class="nav-cta" href="/onboarding">Get started</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero hero-roofing">
+      <div class="roofline"></div>
+      <div class="wrap hero-grid">
+        <div class="hero-copy reveal">
+          <p class="eyebrow">Roofing Estimator Project</p>
+          <h1>Stop losing roofing leads while you are on another job.</h1>
+          <p class="lede">BidBuddy turns text messages into roofing estimates using your pricing, labor rates, material rules, and job conditions. No app to learn. No dashboard required to send the first quote.</p>
+          <div class="hero-actions">
+            <a class="btn primary" href="/pricing-configurator">Configure pricing</a>
+            <a class="btn secondary" href="#demo">Try the live demo</a>
+          </div>
+          <div class="proof-strip" aria-label="BidBuddy highlights">
+            <span>Built for roofers</span>
+            <span>Text-first workflow</span>
+            <span>Contractor-specific pricing</span>
+          </div>
+        </div>
+
+        <div class="hero-visual reveal delay">
+          <div class="roof-card">
+            <div class="roof-card-top">
+              <span class="status-dot"></span>
+              <span>Incoming roofing lead</span>
+            </div>
+            <div class="lead-bubble">28 squares, architectural shingles, 1 layer tear-off, 6/12 pitch, two-story, 2 pipe boots, 1 chimney.</div>
+            <div class="estimate-panel">
+              <p class="estimate-kicker">BidBuddy estimate</p>
+              <h2>$22,484</h2>
+              <div class="estimate-lines">
+                <span>Roof installation</span><strong>$11,900</strong>
+                <span>Tear-off</span><strong>$2,380</strong>
+                <span>Two-story surcharge</span><strong>$980</strong>
+                <span>Accessories and haul-off</span><strong>$2,035</strong>
+              </div>
+            </div>
+            <p class="review-note">Review final measurements and job conditions before sending to the customer.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="logos-bar">
+      <div class="wrap logos-inner">
+        <span>Designed for</span>
+        <strong>storm response</strong>
+        <strong>roof replacement</strong>
+        <strong>tear-off estimating</strong>
+        <strong>lead follow-up</strong>
+      </div>
+    </section>
+
+    <section id="demo" class="section-white">
+      <div class="wrap demo-grid">
+        <div class="demo-copy">
+          <p class="eyebrow dark">Live estimate demo</p>
+          <h2>Type the job like a roofer would text it.</h2>
+          <p class="sub left">The demo below calculates a sample roofing estimate in the browser using demo pricing. The production SMS backend can use the same scope structure through the Telnyx texting workflow.</p>
+          <ul class="check-list">
+            <li>Squares instead of square feet</li>
+            <li>Tear-off layers and pitch handling</li>
+            <li>Two-story, penetrations, chimney, ridge, valley, and dumpster inputs</li>
+          </ul>
+        </div>
+
+        <div class="demo-card">
+          <label for="demoInput">Text message example</label>
+          <textarea id="demoInput">28 squares architectural shingles, 1 layer tear-off, 6/12 pitch, two-story, 58 ft ridge, 42 ft valley, 2 pipe boots, 1 chimney, dumpster needed.</textarea>
+          <button class="btn primary full" id="runDemo" type="button">Generate sample estimate</button>
+          <div class="demo-output" id="demoOutput" aria-live="polite"></div>
+          <p class="fine-print">Demo pricing is illustrative. Final contractor accounts should use contractor-specific rates.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="how" class="section-soft">
+      <div class="wrap center">
+        <p class="eyebrow dark">How it works</p>
+        <h2>From lead text to estimate in three steps.</h2>
+        <div class="steps-grid">
+          <article class="step-card">
+            <span>01</span>
+            <h3>Load your numbers</h3>
+            <p>Add your install rates, tear-off, pitch, story, accessories, material, margin, and minimum job rules.</p>
+          </article>
+          <article class="step-card">
+            <span>02</span>
+            <h3>Text the job scope</h3>
+            <p>Send the details from the truck, roof, supply house, or after a homeowner sends a lead.</p>
+          </article>
+          <article class="step-card">
+            <span>03</span>
+            <h3>Review and respond</h3>
+            <p>BidBuddy returns an estimate breakdown that can be reviewed before sending anything customer-facing.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="roofing-features">
+      <div class="wrap feature-split">
+        <div>
+          <p class="eyebrow">Roofing specific</p>
+          <h2>Built around real roof estimate variables.</h2>
+          <p class="sub left light-text">BidBuddy is not a generic chatbot with a roofing label. The workflow is structured around roof-specific estimating inputs that matter when pricing replacement work.</p>
+        </div>
+        <div class="feature-grid">
+          <div>Squares</div>
+          <div>Tear-off layers</div>
+          <div>Pitch surcharge</div>
+          <div>Two-story surcharge</div>
+          <div>Ridge and valleys</div>
+          <div>Pipe boots</div>
+          <div>Chimneys</div>
+          <div>Decking sheets</div>
+          <div>Dumpster and haul-off</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-white">
+      <div class="wrap pricing-band">
+        <div>
+          <p class="eyebrow dark">Next step</p>
+          <h2>Configure contractor pricing before sales demos.</h2>
+          <p class="sub left">The current SMS backend is working. The next serious milestone is replacing demo rates with each roofing contractor’s actual pricing profile.</p>
+        </div>
+        <a class="btn primary" href="/pricing-configurator">Open pricing configurator</a>
+      </div>
+    </section>
+
+    <section class="cta-section">
+      <div class="wrap cta-box">
+        <p class="eyebrow">BidBuddy USA LLC</p>
+        <h2>Ready for a roofing contractor demo.</h2>
+        <p>Use the configurator to capture pricing, then wire those values into the SMS estimate engine for contractor-specific estimates.</p>
+        <div class="hero-actions center-actions">
+          <a class="btn primary" href="/pricing-configurator">Configure pricing</a>
+          <a class="btn secondary white" href="mailto:support@bidbuddyusa.com">Contact support</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-grid">
+      <div>
+        <a class="brand footer-brand" href="/">
+          <span class="brand-mark">B</span>
+          <span>BidBuddy <strong>USA</strong></span>
+        </a>
+        <p>Roofing estimates by text for contractors.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <a href="/pricing-configurator">Pricing Configurator</a>
+        <a href="/onboarding">Contractor Onboarding</a>
+        <a href="/cheatsheet">Roofing Cheat Sheet</a>
+      </div>
+      <div>
+        <h4>Compliance</h4>
+        <a href="/sms-consent">SMS Terms</a>
+        <a href="/privacy">Privacy Policy</a>
+        <a href="/terms">Terms &amp; Conditions</a>
+      </div>
+      <div>
+        <h4>Support</h4>
+        <a href="mailto:support@bidbuddyusa.com">support@bidbuddyusa.com</a>
+        <a href="tel:+19012889044">901-288-9044</a>
+        <p>Reply STOP to opt out of SMS messages. Reply HELP for help.</p>
+      </div>
+    </div>
+    <div class="wrap footer-bottom">
+      <p>&copy; 2026 BidBuddy USA LLC. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="/site.js"></script>
+</body>
+</html>
