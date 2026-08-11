@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Contractor Pricing Setup | BidBuddy USA</title>
+  <meta name="description" content="Set up roofing pricing for BidBuddy USA estimates.">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav-wrap">
+      <a class="brand" href="/" aria-label="BidBuddy USA home">
+        <span class="brand-mark">B</span>
+        <span>BidBuddy <strong>USA</strong></span>
+      </a>
+      <nav aria-label="Primary navigation">
+        <a href="/">Home</a>
+        <a href="/sms-consent">SMS terms</a>
+        <a href="/privacy">Privacy</a>
+        <a class="nav-cta" href="mailto:support@bidbuddyusa.com">Support</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="config-hero clean-config-hero">
+      <div class="wrap config-hero-grid">
+        <div>
+          <p class="eyebrow">Contractor pricing setup</p>
+          <h1>Set up roofing pricing without the paperwork mess.</h1>
+          <p class="lede">Enter the roofer's normal pricing once, then use the sample job preview to show how BidBuddy turns roof details into an estimate.</p>
+        </div>
+        <div class="config-summary-card clean-status-card">
+          <p class="estimate-kicker">Demo mode</p>
+          <h2>Pricing Preview</h2>
+          <p>This page does not save profiles yet. It is for demoing the future contractor setup flow and previewing estimate logic.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-white setup-section">
+      <div class="wrap setup-layout">
+        <form class="setup-form" id="pricingForm">
+          <div class="setup-progress" aria-label="Pricing setup sections">
+            <span>1. Company</span>
+            <span>2. Pricing</span>
+            <span>3. Add-ons</span>
+            <span>4. Preview</span>
+          </div>
+
+          <section class="setup-card">
+            <div class="section-heading">
+              <p>Step 1</p>
+              <h2>Company Information</h2>
+            </div>
+            <div class="input-list two-column-list">
+              <label><span>Company name</span><input name="businessName" value="Demo Roofing Contractor"></label>
+              <label><span>Owner or contact name</span><input name="ownerName" value=""></label>
+              <label><span>Phone number</span><input name="supportPhone" value="901-288-9044"></label>
+              <label><span>Email address</span><input name="supportEmail" value="support@bidbuddyusa.com"></label>
+              <label class="wide"><span>Service area</span><input name="serviceArea" value="Memphis metro"></label>
+            </div>
+          </section>
+
+          <section class="setup-card">
+            <div class="section-heading">
+              <p>Step 2</p>
+              <h2>Core Roofing Pricing</h2>
+            </div>
+            <div class="input-list two-column-list">
+              <label><span>Install price per square</span><input type="number" name="baseInstallPerSquare" value="425"></label>
+              <label><span>Tear-off price per square</span><input type="number" name="tearOffPerSquarePerLayer" value="85"></label>
+              <label><span>Minimum job charge</span><input type="number" name="minimumJob" value="2500"></label>
+              <label><span>Profit margin %</span><input type="number" name="marginPercent" value="30"></label>
+            </div>
+          </section>
+
+          <section class="setup-card">
+            <div class="section-heading">
+              <p>Step 3</p>
+              <h2>Roof Complexity</h2>
+            </div>
+            <div class="input-list two-column-list">
+              <label><span>Steep pitch surcharge per square</span><input type="number" name="steepPitchSurchargePerSquare" value="45"></label>
+              <label><span>Two-story surcharge per square</span><input type="number" name="twoStorySurchargePerSquare" value="35"></label>
+            </div>
+          </section>
+
+          <section class="setup-card">
+            <div class="section-heading">
+              <p>Step 4</p>
+              <h2>Roof Components</h2>
+            </div>
+            <div class="input-list two-column-list">
+              <label><span>Ridge detail per foot</span><input type="number" name="ridgeVentPerFoot" value="9"></label>
+              <label><span>Valley detail per foot</span><input type="number" name="valleyPerFoot" value="14"></label>
+              <label><span>Pipe boot price</span><input type="number" name="pipeBootEach" value="75"></label>
+              <label><span>Chimney flashing price</span><input type="number" name="chimneyFlashingEach" value="325"></label>
+              <label><span>Skylight flashing price</span><input type="number" name="skylightFlashingEach" value="275"></label>
+              <label><span>Decking per sheet</span><input type="number" name="deckingPerSheet" value="95"></label>
+            </div>
+          </section>
+
+          <section class="setup-card">
+            <div class="section-heading">
+              <p>Step 5</p>
+              <h2>Disposal & Materials</h2>
+            </div>
+            <div class="input-list two-column-list">
+              <label><span>Dumpster / haul-off fee</span><input type="number" name="dumpsterFlat" value="450"></label>
+              <label><span>Drip edge per foot</span><input type="number" name="dripEdgePerFoot" value="3.5" step="0.01"></label>
+              <label><span>Ice & water shield per foot</span><input type="number" name="iceWaterShieldPerFoot" value="4.25" step="0.01"></label>
+            </div>
+          </section>
+
+          <section class="setup-card">
+            <div class="section-heading">
+              <p>Step 6</p>
+              <h2>Sample Job Preview</h2>
+              <span class="section-note">This is the example job shown to the roofer during the demo.</span>
+            </div>
+            <div class="input-list sample-list">
+              <label><span>Roof squares</span><input type="number" name="sampleSquares" value="28"></label>
+              <label><span>Tear-off layers</span><input type="number" name="sampleTearOffLayers" value="1"></label>
+              <label><span>Pitch</span><select name="samplePitch"><option value="4/12">4/12</option><option value="6/12" selected>6/12</option><option value="8/12">8/12</option><option value="10/12">10/12</option><option value="12/12">12/12</option></select></label>
+              <label><span>Story count</span><select name="sampleStory"><option value="one-story">One story</option><option value="two-story" selected>Two story</option></select></label>
+              <label><span>Ridge feet</span><input type="number" name="sampleRidgeFeet" value="58"></label>
+              <label><span>Valley feet</span><input type="number" name="sampleValleyFeet" value="42"></label>
+              <label><span>Pipe boots</span><input type="number" name="samplePipeBoots" value="2"></label>
+              <label><span>Chimneys</span><input type="number" name="sampleChimneys" value="1"></label>
+              <label><span>Decking sheets</span><input type="number" name="sampleDeckingSheets" value="0"></label>
+            </div>
+          </section>
+
+          <div class="clean-actions">
+            <button class="btn primary" type="button" id="calculateConfig">Preview Estimate</button>
+            <button class="btn secondary dark" type="button" id="requestSetup">Request Setup</button>
+          </div>
+        </form>
+
+        <aside class="estimate-sidebar">
+          <div class="estimate-preview-card">
+            <p class="estimate-kicker">Sample estimate</p>
+            <div id="configEstimate"></div>
+          </div>
+          <div class="setup-summary-card">
+            <h3>What this page does today</h3>
+            <ul>
+              <li>Shows a roofer how pricing setup will work</li>
+              <li>Previews an estimate using demo values</li>
+              <li>Prepares us to save contractor profiles later</li>
+            </ul>
+            <p>Profiles are not saved yet. That is the next build step.</p>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-bottom">
+      <p>&copy; 2026 BidBuddy USA LLC. Support: <a href="mailto:support@bidbuddyusa.com">support@bidbuddyusa.com</a> | <a href="tel:+19012889044">901-288-9044</a></p>
+    </div>
+  </footer>
+
+  <script src="/site.js"></script>
+</body>
+</html>
