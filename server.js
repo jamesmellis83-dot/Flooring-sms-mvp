@@ -30,6 +30,11 @@ app.get("/sms-consent", (req, res) =>
 app.get("/onboarding", (req, res) =>
   res.sendFile(path.join(__dirname, "public", "onboarding.html")));
 
+app.get("/pricing-configurator", (req, res) =>
+  res.sendFile(
+    path.join(__dirname, "public", "pricing-configurator.html")
+  ));
+
 app.get("/cheatsheet", (req, res) =>
   res.sendFile(path.join(__dirname, "public", "cheatsheet.html")));
 
