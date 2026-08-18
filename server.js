@@ -25,20 +25,33 @@ app.use('/', portal);
 // ---- SMS webhook (Telnyx) ----
 app.post('/sms', async (req, res) => {
   try {
+    console.log('FULL SMS PAYLOAD:', JSON.stringify(req.body, null, 2));
+
     const p = req.body?.data?.payload || req.body || {};
     const from = p.from?.phone_number || p.from || req.body.From;
     const text = p.text || req.body.Body || '';
 
-    // ACK immediately so Telnyx doesn't retry
+    console.log('FROM:', from);
+    console.log('TEXT:', text);
+
     res.sendStatus(200);
 
     if (!from || !text) return;
+
     const reply = await handleInboundSms({ from, text });
-    await sendSms({ to: from, text: reply });
+
+    console.log('REPLY:', reply);
+
+    await sendSms({
+      to: from,
+      text: reply
+    });
+
   } catch (err) {
     console.error('SMS handler error:', err);
   }
 });
+``
 
 async function sendSms({ to, text }) {
   const r = await fetch('https://api.telnyx.com/v2/messages', {
