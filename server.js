@@ -1,6 +1,10 @@
 // server.js — BidBuddy USA
 // Replace your existing root server.js with this, or merge the marked sections.
+const eventType = req.body?.data?.event_type;
 
+if (eventType !== 'message.received') {
+  return res.sendStatus(200);
+}
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const path = require('path');
